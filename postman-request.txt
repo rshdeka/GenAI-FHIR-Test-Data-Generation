@@ -1,0 +1,324 @@
+1. FHIRResourceGenerationAPI
+
+POST -> http://localhost:7071/api/FHIRResourceGenerationAPI
+
+Request Body:
+BODY -> raw -> JSON:
+
+{    
+    "update_patient": true,  
+    "patient_data_elements": ["birthDate"],  
+    "patient_input_data": {  
+        "birthDate": "1990-01-07"  
+    },
+    "include_condition": true,  
+    "update_condition": true,  
+    "condition_data_elements": ["system", "onsetPeriod.start", "clinicalStatus.coding.code"],  
+    "condition_input_data": {  
+        "system": "icd-10-cm",  
+        "onsetPeriod": {  
+            "start": "2021-01-01"  
+        },  
+        "clinicalStatus": {  
+            "coding": {  
+                "code": "active"  
+            }  
+        }
+    },  
+    "include_encounter": true,  
+    "update_encounter": true,  
+    "encounter_data_elements": ["period.start"],  
+    "encounter_input_data": {  
+        "period": {  
+            "start": "2021-01-01"  
+        }  
+    },
+    "include_appointment": true,  
+    "update_appointment": true,  
+    "appointment_data_elements": ["start"],  
+    "appointment_input_data": {  
+        "start": "2023-07-25T09:00:00Z"
+    },
+    "include_observation": true,  
+    "update_observation": true,  
+    "observation_category": ["vital-signs", "laboratory"],  
+    "observation_data_elements": ["effectiveDateTime", "code.coding.System", "valueQuantity.value"], 
+    "observation_input_data": {
+        "vital-signs": {  
+            "blood_pressure": {  
+                "effectiveDateTime": "2021-01-01T00:00:00",  
+                "code": {  
+                    "coding": [{  
+                        "system": "http://loinc.org",  
+                        "code": "85354-9",  
+                        "display": "Blood pressure panel"  
+                    }]  
+                },  
+                "valueQuantity": {  
+                    "value": 120,  
+                    "unit": "mmHg",  
+                    "system": "http://unitsofmeasure.org",  
+                    "code": "mm[Hg]"  
+                }  
+            },  
+            "heart_rate": {  
+                "effectiveDateTime": "2021-01-01T00:00:00",  
+                "code": {  
+                    "coding": [{  
+                        "system": "http://loinc.org",  
+                        "code": "8867-4",  
+                        "display": "Heart rate"  
+                    }]  
+                },  
+                "valueQuantity": {  
+                    "value": 75,  
+                    "unit": "beats/minute",  
+                    "system": "http://unitsofmeasure.org",  
+                    "code": "/min"  
+                }  
+            }  
+        },
+        "laboratory": {  
+            "effectiveDateTime": "2021-01-01T00:00:00",  
+            "code": {  
+                "coding": [{  
+                    "system": "http://unitsofmeasure.org",  
+                    "code": "10*12/L",  
+                    "display": "10^12/L"  
+                }]  
+            },  
+            "valueQuantity": {  
+                "value": 4.5,  
+                "unit": "10^12/L",  
+                "system": "http://unitsofmeasure.org",  
+                "code": "10*12/L"  
+            }  
+        }
+    },
+    "include_service_request": true,  
+    "update_service_request": true,  
+    "service_request_data_elements": ["effectiveDateTime"],  
+    "service_request_input_data": {  
+        "effectiveDateTime": "2021-01-01T00:00:00"
+    },
+    "include_medication_request": true,  
+    "update_medication_request": true,  
+    "medication_request_data_elements": ["identifier.system", "dosageInstruction", "numberOfRepeatsAllowed", "quantity.value", "dosageInstruction.doseAndRate.doseQuantity"],  
+    "medication_request_input_data": {  
+        "identifier": {  
+            "system": "rxnorm"  
+        },  
+        "dosageInstruction": [{  
+            "text": "Take one tablet by mouth every 6 hours"  
+        }],  
+        "numberOfRepeatsAllowed": 3,  
+        "quantity": {  
+            "value": 30,  
+            "unit": "tablet"  
+        },  
+        "dosageInstruction.doseAndRate.doseQuantity": {  
+            "value": 325,  
+            "unit": "mg"  
+        },  
+        "dispenseRequest": {  
+            "validityPeriod": {  
+                "start": "2021-01-01T00:00:00"  
+            }  
+        }
+    }, 
+    "include_allergy_intolerance": true,  
+    "update_allergy_intolerance": true,  
+    "allergy_intolerance_data_elements": ["system", "onsetPeriod.start", "verificationStatus.code"],  
+    "allergy_intolerance_input_data": {  
+        "system": "http://snomed.info/sct",  
+        "onsetPeriod": {  
+            "start": "2021-01-01T00:00:00"  
+        },  
+        "verificationStatus": {  
+            "code": "confirmed"  
+        }  
+    }
+}
+
+
+Response Body:
+
+{
+    "message": "FHIR data generated and stored successfully.",
+    "file_path": "fhir_data_generation/generated_fhir_bundle_patient-001.json",
+    "success_data": {
+        "patient": {
+            "message": "Patient data for ID: Patient/patient-001 generated successfully.",
+            "patient_data_elements": [
+                "birthDate"
+            ]
+        },
+        "condition": {
+            "message": "Condition data for Condition/cond-001 generated successfully.",
+            "condition_data_elements": [
+                "system",
+                "onsetPeriod.start",
+                "clinicalStatus.coding.code"
+            ]
+        },
+        "encounter": {
+            "message": "Encounter data for Encounter/encounter-123 generated successfully.",
+            "encounter_data_elements": [
+                "period.start"
+            ]
+        },
+        "appointment": {
+            "message": "Appointment data for Appointment/appointment-12345 generated successfully.",
+            "appointment_data_elements": [
+                "start"
+            ]
+        },
+        "observation": [
+            {
+                "message": "Observation data for ID:Observation/obs-heart-rate-001 generated successfully.",
+                "observation_category": [
+                    "vital-signs",
+                    "laboratory"
+                ],
+                "observation_data_elements": [
+                    "effectiveDateTime",
+                    "code.coding.System",
+                    "valueQuantity.value"
+                ]
+            },
+            {
+                "message": "Observation data for ID:Observation/obs-blood-pressure-001 generated successfully.",
+                "observation_category": [
+                    "vital-signs",
+                    "laboratory"
+                ],
+                "observation_data_elements": [
+                    "effectiveDateTime",
+                    "code.coding.System",
+                    "valueQuantity.value"
+                ]
+            },
+            {
+                "message": "Observation data for ID:Observation/obs-001 generated successfully.",
+                "observation_category": [
+                    "vital-signs",
+                    "laboratory"
+                ],
+                "observation_data_elements": [
+                    "effectiveDateTime",
+                    "code.coding.System",
+                    "valueQuantity.value"
+                ]
+            }
+        ],
+        "service_request": {
+            "message": "ServiceRequest data for ServiceRequest/servicerequest-001 generated successfully.",
+            "service_request_data_elements": [
+                "effectiveDateTime"
+            ]
+        },
+        "medication_request": {
+            "message": "MedicationRequest data for MedicationRequest/medreq-001 generated successfully.",
+            "medication_request_data_elements": [
+                "identifier.system",
+                "dosageInstruction",
+                "numberOfRepeatsAllowed",
+                "quantity.value",
+                "dosageInstruction.doseAndRate.doseQuantity"
+            ]
+        },
+        "allergy_intolerance": {
+            "message": "AllergyIntolerance data for AllergyIntolerance/allergyIntolerance-123 generated successfully.",
+            "allergy_intolerance_data_elements": [
+                "system",
+                "onsetPeriod.start",
+                "verificationStatus.code"
+            ]
+        }
+    }
+}
+
+
+
+
+
+
+2. FHIRBundleValidationAPI
+
+POST -> http://localhost:7071/api/FHIRBundleValidationAPI
+
+Request Body:
+
+{
+    "file_path": "fhir_data_generation/generated_fhir_bundle_patient-001.json"
+}
+
+
+Response Body:
+
+{
+    "status": "success",
+    "message": "Validation of original bundle and validated bundle completed successfully.",
+    "initial_validation": {
+        "status": "error",
+        "filePath": "fhir_data_generation/generated_fhir_bundle_patient-001.json",
+        "message": "Initial FHIR Bundle contains errors. Generating validated bundle."
+    },
+    "re_validation": {
+        "status": "success",
+        "filePath": "fhir_data_validation/validated_fhir_bundle_patient-001.json",
+        "message": "FHIR Bundle and resourceTypes are valid after re-validation.",
+        "results": [
+            {
+                "status": "success",
+                "resourceType": "Patient",
+                "message": "Resource Patient/patient-001 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "Condition",
+                "message": "Resource Condition/cond-001 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "Encounter",
+                "message": "Resource Encounter/encounter-123 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "Appointment",
+                "message": "Resource Appointment/appointment-12345 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "Observation",
+                "message": "Resource Observation/obs-heart-rate-001 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "Observation",
+                "message": "Resource Observation/obs-blood-pressure-001 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "Observation",
+                "message": "Resource Observation/obs-001 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "ServiceRequest",
+                "message": "Resource ServiceRequest/servicerequest-001 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "MedicationRequest",
+                "message": "Resource MedicationRequest/medreq-001 is valid."
+            },
+            {
+                "status": "success",
+                "resourceType": "AllergyIntolerance",
+                "message": "Resource AllergyIntolerance/allergyIntolerance-123 is valid."
+            }
+        ]
+    }
+}

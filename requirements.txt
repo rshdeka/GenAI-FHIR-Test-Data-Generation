@@ -1,0 +1,8 @@
+#azure-functions==1.17.0
+azure-functions==1.21.1
+azure-storage-blob
+pytz
+openai
+requests
+fhirclient
+fhir-resources
